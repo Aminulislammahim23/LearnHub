@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - LearnHub Online Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .counter { font-size: 2.5rem; font-weight: bold; color: #4f46e5; }
+        .timeline-item { position: relative; padding-left: 2rem; }
+        .timeline-item::before { content: ''; position: absolute; left: 0; top: 0.5rem; width: 12px; height: 12px; background: #4f46e5; border-radius: 50%; }
+        .timeline-item::after { content: ''; position: absolute; left: 5px; top: 1.25rem; width: 2px; height: calc(100% - 0.5rem); background: #e5e7eb; }
+        .timeline-item:last-child::after { display: none; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">📚 LearnHub</h1>
+                    </div>
+                    <div class="hidden md:block ml-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="../pages/course.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Courses</a>
+                            <a href="../pages/myLearn.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">My Learning</a>
+                            <a href="../pages/instructor.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Instructors</a>
+                            <a href="../pages/about.html" class="text-indigo-600 hover:text-indigo-700 px-3 py-2 rounded-md text-sm font-medium transition-colors border-b-2 border-indigo-600">About</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl font-bold mb-6 fade-in">About LearnHub</h1>
+            <p class="text-xl max-w-3xl mx-auto mb-8 fade-in">We're on a mission to democratize education and make quality learning accessible to everyone, everywhere.</p>
+            <div class="flex justify-center space-x-8 text-center fade-in">
+                <div>
+                    <div class="counter" id="studentsCounter">0</div>
+                    <div class="text-sm opacity-90">Students Worldwide</div>
+                </div>
+                <div>
+                    <div class="counter" id="coursesCounter">0</div>
+                    <div class="text-sm opacity-90">Courses Available</div>
+                </div>
+                <div>
+                    <div class="counter" id="instructorsCounter">0</div>
+                    <div class="text-sm opacity-90">Expert Instructors</div>
+                </div>
+                <div>
+                    <div class="counter" id="countriesCounter">0</div>
+                    <div class="text-sm opacity-90">Countries Served</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
+                    <p class="text-lg text-gray-700 mb-6">At LearnHub, we believe that education is the key to unlocking human potential. Our mission is to provide accessible, high-quality online education that empowers learners to achieve their goals and transform their lives.</p>
+                    <p class="text-lg text-gray-700 mb-8">We're committed to breaking down barriers to education by offering courses from world-class instructors at affordable prices, available anytime, anywhere.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-indigo-600">🎯</span>
+                            </div>
+                            <span class="text-gray-700">Accessible education for all</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-indigo-600">🌟</span>
+                            </div>
+                            <span class="text-gray-700">World-class learning experiences</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-indigo-600">🚀</span>
+                            </div>
+                            <span class="text-gray-700">Empowering career growth</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-8 text-white">
+                        <div class="text-6xl mb-4">🌍</div>
+                        <h3 class="text-2xl font-bold mb-4">Global Impact</h3>
+                        <p class="text-lg opacity-90">Transforming lives through education across 190+ countries</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Timeline -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Journey</h2>
+                <p class="text-xl text-gray-600">From a simple idea to a global learning platform</p>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <div class="space-y-8">
+                    <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/4 mb-4 md:mb-0">
+                                <span class="text-2xl font-bold text-indigo-600">2018</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h3 class="text-xl font-semibold mb-2">The Beginning</h3>
+                                <p class="text-gray-700">Founded by a team of educators and technologists with a vision to make quality education accessible to everyone.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/4 mb-4 md:mb-0">
+                                <span class="text-2xl font-bold text-indigo-600">2019</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h3 class="text-xl font-semibold mb-2">First 1,000 Students</h3>
+                                <p class="text-gray-700">Reached our first milestone with 1,000 students and 50 courses across technology and business categories.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/4 mb-4 md:mb-0">
+                                <span class="text-2xl font-bold text-indigo-600">2020</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h3 class="text-xl font-semibold mb-2">Global Expansion</h3>
+                                <p class="text-gray-700">Expanded internationally and launched mobile apps, reaching students in over 100 countries during the pandemic.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/4 mb-4 md:mb-0">
+                                <span class="text-2xl font-bold text-indigo-600">2022</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h3 class="text-xl font-semibold mb-2">100,000 Students</h3>
+                                <p class="text-gray-700">Celebrated 100,000 students and launched advanced features like AI-powered recommendations and interactive labs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex flex-col md:flex-row md:items-center">
+                            <div class="md:w-1/4 mb-4 md:mb-0">
+                                <span class="text-2xl font-bold text-indigo-600">2024</span>
+                            </div>
+                            <div class="md:w-3/4">
+                                <h3 class="text-xl font-semibold mb-2">Leading the Future</h3>
+                                <p class="text-gray-700">Now serving over 500,000 students worldwide with 2,000+ courses and continuing to innovate in online education.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Team -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Meet Our Leadership Team</h2>
+                <p class="text-xl text-gray-600">Passionate leaders driving innovation in education</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-8 text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">👨‍💼</div>
+                        <h3 class="text-xl font-semibold mb-2">John Anderson</h3>
+                        <p class="text-indigo-600 font-medium mb-3">CEO & Co-Founder</p>
+                        <p class="text-gray-600 text-sm mb-4">Former VP of Education at Google. Passionate about democratizing access to quality education worldwide.</p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">💼</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">🐦</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">📧</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-8 text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">👩‍💼</div>
+                        <h3 class="text-xl font-semibold mb-2">Sarah Chen</h3>
+                        <p class="text-indigo-600 font-medium mb-3">CTO & Co-Founder</p>
+                        <p class="text-gray-600 text-sm mb-4">Former Senior Engineer at Netflix. Expert in scalable systems and educational technology innovation.</p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">💼</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">🐦</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">📧</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-8 text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">👨‍🎓</div>
+                        <h3 class="text-xl font-semibold mb-2">Dr. Michael Rodriguez</h3>
+                        <p class="text-indigo-600 font-medium mb-3">Chief Academic Officer</p>
+                        <p class="text-gray-600 text-sm mb-4">Former Dean at Stanford. PhD in Education Technology with 20+ years in curriculum development.</p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">💼</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">🐦</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">📧</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-8 text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">👩‍💻</div>
+                        <h3 class="text-xl font-semibold mb-2">Lisa Park</h3>
+                        <p class="text-indigo-600 font-medium mb-3">VP of Product</p>
+                        <p class="text-gray-600 text-sm mb-4">Former Product Lead at Coursera. Specializes in user experience and learning analytics.</p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">💼</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">🐦</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">📧</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-8 text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">👨‍💼</div>
+                        <h3 class="text-xl font-semibold mb-2">David Kim</h3>
+                        <p class="text-indigo-600 font-medium mb-3">VP of Marketing</p>
+                        <p class="text-gray-600 text-sm mb-4">Former Marketing Director at Udemy. Expert in growth marketing and community building.</p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">💼</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">🐦</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">📧</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="p-8 text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4">👩‍💼</div>
+                        <h3 class="text-xl font-semibold mb-2">Emma Thompson</h3>
+                        <p class="text-indigo-600 font-medium mb-3">VP of Operations</p>
+                        <p class="text-gray-600 text-sm mb-4">Former Operations Lead at Khan Academy. Ensures smooth platform operations and student success.</p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">💼</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">🐦</a>
+                            <a href="#" class="text-gray-400 hover:text-indigo-600 transition-colors">📧</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Core Values</h2>
+                <p class="text-xl text-gray-600">The principles that guide everything we do</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🎯</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Excellence</h3>
+                    <p class="text-gray-600">We strive for excellence in everything we do, from course content to student support.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🤝</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Accessibility</h3>
+                    <p class="text-gray-600">Education should be accessible to everyone, regardless of background or circumstances.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🚀</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Innovation</h3>
+                    <p class="text-gray-600">We continuously innovate to improve the learning experience and outcomes.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">❤️</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Community</h3>
+                    <p class="text-gray-600">We foster a supportive community where learners and instructors thrive together.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Get in Touch</h2>
+                <p class="text-xl text-gray-600">We'd love to hear from you</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <div class="space-y-8">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-indigo-600 text-xl">📍</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Our Office</h3>
+                                <p class="text-gray-600">123 Education Street<br>San Francisco, CA 94105<br>United States</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-indigo-600 text-xl">📞</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Phone</h3>
+                                <p class="text-gray-600">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-indigo-600 text-xl">📧</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Email</h3>
+                                <p class="text-gray-600">hello@learnhub.com<br>support@learnhub.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-indigo-600 text-xl">🕒</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Support Hours</h3>
+                                <p class="text-gray-600">Monday - Friday: 9:00 AM - 6:00 PM PST<br>Weekend: 10:00 AM - 4:00 PM PST</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <form class="space-y-6" onsubmit="submitContactForm(event)">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                            <select id="subject" name="subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="instructor">Become an Instructor</option>
+                                <option value="press">Press & Media</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                            <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Tell us how we can help you..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">📚 LearnHub</h3>
+                    <p class="text-gray-400 mb-4">Empowering learners worldwide with quality education and expert instruction.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📘</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">🐦</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📷</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">💼</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Browse Courses</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Become Instructor</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mobile App</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Enterprise</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">System Status</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 LearnHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animated counters
+        function animateCounter(elementId, targetValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            const startValue = 0;
+            const increment = targetValue / (duration / 16);
+            let currentValue = startValue;
+
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(timer);
+                }
+                
+                if (targetValue >= 1000000) {
+                    element.textContent = (currentValue / 1000000).toFixed(1) + 'M+';
+                } else if (targetValue >= 1000) {
+                    element.textContent = (currentValue / 1000).toFixed(0) + 'K+';
+                } else {
+                    element.textContent = Math.floor(currentValue) + '+';
+                }
+            }, 16);
+        }
+
+        // Initialize counters when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate counters with a delay to make it more impressive
+            setTimeout(() => {
+                animateCounter('studentsCounter', 500000);
+                animateCounter('coursesCounter', 2000);
+                animateCounter('instructorsCounter', 150);
+                animateCounter('countriesCounter', 190);
+            }, 500);
+        });
+
+        // Contact form submission
+        function submitContactForm(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+
+            // Simulate form submission
+            alert(`Thank you for your message, ${name}! 📧\n\nWe've received your inquiry about "${subject}" and will get back to you at ${email} within 24 hours.\n\nOur team is excited to help you on your learning journey!`);
+            
+            // Reset form
+            event.target.reset();
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.card-hover, .timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c2492b63703372',t:'MTc1NDY5MDQxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

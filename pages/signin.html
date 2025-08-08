@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - LearnHub Online Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .form-container { transition: transform 0.5s ease, opacity 0.5s ease; }
+        .form-hidden { transform: translateX(20px); opacity: 0; pointer-events: none; }
+        .form-visible { transform: translateX(0); opacity: 1; pointer-events: auto; }
+        .input-focus { transition: all 0.3s ease; }
+        .input-focus:focus { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.2); }
+        .social-btn { transition: all 0.3s ease; }
+        .social-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.1); }
+        .floating-label { transition: all 0.3s ease; }
+        .floating-label.active { transform: translateY(-1.5rem) scale(0.85); color: #4f46e5; }
+        .password-strength { height: 4px; border-radius: 2px; transition: all 0.3s ease; }
+        .strength-weak { background: #ef4444; width: 25%; }
+        .strength-medium { background: #f59e0b; width: 50%; }
+        .strength-good { background: #10b981; width: 75%; }
+        .strength-strong { background: #059669; width: 100%; }
+        .slide-in { animation: slideIn 0.6s ease-out; }
+        @keyframes slideIn { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-indigo-600">📚 LearnHub</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="../pages/course.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Courses</a>
+                    <a href="../pages/instructor.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Instructors</a>
+                    <a href="../pages/about.html" class="text-gray-600 hover:text-indigo-600 transition-colors">About</a>
+                    <span class="text-gray-400">|</span>
+                    <a href="#" class="text-indigo-600 font-medium">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <!-- Header -->
+            <div class="text-center slide-in">
+                <div class="mx-auto h-20 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl mb-6">
+                    🎓
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome to LearnHub</h2>
+                <p class="text-gray-600">Sign in to continue your learning journey</p>
+            </div>
+
+            <!-- Form Container -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 slide-in">
+                <!-- Tab Navigation -->
+                <div class="flex mb-8 bg-gray-100 rounded-lg p-1">
+                    <button id="signinTab" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors bg-white text-indigo-600 shadow-sm">
+                        Sign In
+                    </button>
+                    <button id="signupTab" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-gray-900">
+                        Sign Up
+                    </button>
+                </div>
+
+                <!-- Sign In Form -->
+                <div id="signinForm" class="form-container form-visible">
+                    <form class="space-y-6" onsubmit="handleSignIn(event)">
+                        <div class="relative">
+                            <input type="email" id="signinEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer" placeholder=" ">
+                            <label for="signinEmail" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">Email Address</label>
+                        </div>
+
+                        <div class="relative">
+                            <input type="password" id="signinPassword" name="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer pr-12" placeholder=" ">
+                            <label for="signinPassword" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">Password</label>
+                            <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600" onclick="togglePassword('signinPassword')">
+                                <span id="signinPasswordIcon">👁️</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                            </label>
+                            <button type="button" class="text-sm text-indigo-600 hover:text-indigo-500" onclick="showForgotPassword()">
+                                Forgot password?
+                            </button>
+                        </div>
+
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="mt-6 mb-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Login -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" class="social-btn flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all" onclick="socialLogin('google')">
+                            <span class="mr-2">🔍</span>
+                            <span class="text-sm font-medium text-gray-700">Google</span>
+                        </button>
+                        <button type="button" class="social-btn flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all" onclick="socialLogin('facebook')">
+                            <span class="mr-2">📘</span>
+                            <span class="text-sm font-medium text-gray-700">Facebook</span>
+                        </button>
+                    </div>
+
+                    <!-- Demo Accounts -->
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <h4 class="text-sm font-medium text-blue-900 mb-2">Demo Accounts</h4>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-blue-700">Student:</span>
+                                <button class="text-blue-600 hover:text-blue-800 underline" onclick="fillDemoAccount('student@demo.com', 'demo123')">
+                                    student@demo.com
+                                </button>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-blue-700">Instructor:</span>
+                                <button class="text-blue-600 hover:text-blue-800 underline" onclick="fillDemoAccount('instructor@demo.com', 'demo123')">
+                                    instructor@demo.com
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sign Up Form -->
+                <div id="signupForm" class="form-container form-hidden">
+                    <form class="space-y-6" onsubmit="handleSignUp(event)">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="relative">
+                                <input type="text" id="firstName" name="firstName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer" placeholder=" ">
+                                <label for="firstName" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">First Name</label>
+                            </div>
+                            <div class="relative">
+                                <input type="text" id="lastName" name="lastName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer" placeholder=" ">
+                                <label for="lastName" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">Last Name</label>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <input type="email" id="signupEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer" placeholder=" ">
+                            <label for="signupEmail" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">Email Address</label>
+                        </div>
+
+                        <div class="relative">
+                            <input type="password" id="signupPassword" name="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer pr-12" placeholder=" " oninput="checkPasswordStrength(this.value)">
+                            <label for="signupPassword" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">Password</label>
+                            <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600" onclick="togglePassword('signupPassword')">
+                                <span id="signupPasswordIcon">👁️</span>
+                            </button>
+                            <div class="mt-2">
+                                <div class="password-strength bg-gray-200" id="passwordStrength"></div>
+                                <p class="text-xs text-gray-500 mt-1" id="passwordStrengthText">Password strength</p>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <input type="password" id="confirmPassword" name="confirmPassword" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer" placeholder=" " oninput="checkPasswordMatch()">
+                            <label for="confirmPassword" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">Confirm Password</label>
+                            <div id="passwordMatchIndicator" class="absolute right-3 top-3 text-xl hidden"></div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <label class="flex items-start">
+                                <input type="checkbox" required class="mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span class="ml-2 text-sm text-gray-600">
+                                    I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-500">Terms of Service</a> and <a href="#" class="text-indigo-600 hover:text-indigo-500">Privacy Policy</a>
+                                </span>
+                            </label>
+                            <label class="flex items-start">
+                                <input type="checkbox" class="mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span class="ml-2 text-sm text-gray-600">
+                                    I want to receive updates about new courses and features
+                                </span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <!-- Social Signup -->
+                    <div class="mt-6 mb-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">Or sign up with</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" class="social-btn flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all" onclick="socialLogin('google')">
+                            <span class="mr-2">🔍</span>
+                            <span class="text-sm font-medium text-gray-700">Google</span>
+                        </button>
+                        <button type="button" class="social-btn flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all" onclick="socialLogin('facebook')">
+                            <span class="mr-2">📘</span>
+                            <span class="text-sm font-medium text-gray-700">Facebook</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Forgot Password Form -->
+                <div id="forgotPasswordForm" class="form-container form-hidden">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Reset Password</h3>
+                        <p class="text-gray-600 text-sm">Enter your email address and we'll send you a link to reset your password.</p>
+                    </div>
+                    
+                    <form class="space-y-6" onsubmit="handleForgotPassword(event)">
+                        <div class="relative">
+                            <input type="email" id="forgotEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus peer" placeholder=" ">
+                            <label for="forgotEmail" class="absolute left-4 top-3 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-indigo-600 peer-valid:top-1 peer-valid:text-xs">Email Address</label>
+                        </div>
+
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            Send Reset Link
+                        </button>
+                    </form>
+
+                    <div class="mt-6 text-center">
+                        <button type="button" class="text-sm text-indigo-600 hover:text-indigo-500" onclick="showSignIn()">
+                            ← Back to Sign In
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="text-center text-sm text-gray-600 slide-in">
+                <p>New to LearnHub? 
+                    <button class="text-indigo-600 hover:text-indigo-500 font-medium" onclick="switchToSignUp()">
+                        Create an account
+                    </button>
+                </p>
+                <div class="mt-4 space-x-4">
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Help Center</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Privacy</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Terms</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="text-2xl">✅</span>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2" id="successTitle">Success!</h3>
+            <p class="text-gray-600 mb-6" id="successMessage">Your account has been created successfully.</p>
+            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors" onclick="closeSuccessModal()">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            const signinTab = document.getElementById('signinTab');
+            const signupTab = document.getElementById('signupTab');
+            const signinForm = document.getElementById('signinForm');
+            const signupForm = document.getElementById('signupForm');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+
+            // Hide forgot password form
+            forgotPasswordForm.classList.remove('form-visible');
+            forgotPasswordForm.classList.add('form-hidden');
+
+            if (tabName === 'signin') {
+                signinTab.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                signinTab.classList.remove('text-gray-600');
+                signupTab.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                signupTab.classList.add('text-gray-600');
+                
+                signinForm.classList.remove('form-hidden');
+                signinForm.classList.add('form-visible');
+                signupForm.classList.remove('form-visible');
+                signupForm.classList.add('form-hidden');
+            } else {
+                signupTab.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                signupTab.classList.remove('text-gray-600');
+                signinTab.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                signinTab.classList.add('text-gray-600');
+                
+                signupForm.classList.remove('form-hidden');
+                signupForm.classList.add('form-visible');
+                signinForm.classList.remove('form-visible');
+                signinForm.classList.add('form-hidden');
+            }
+        }
+
+        function switchToSignUp() {
+            switchTab('signup');
+        }
+
+        // Event listeners for tabs
+        document.getElementById('signinTab').addEventListener('click', () => switchTab('signin'));
+        document.getElementById('signupTab').addEventListener('click', () => switchTab('signup'));
+
+        // Password visibility toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(inputId + 'Icon');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                icon.textContent = '👁️';
+            }
+        }
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthBar = document.getElementById('passwordStrength');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            let strength = 0;
+            let feedback = '';
+
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            strengthBar.className = 'password-strength';
+            
+            switch (strength) {
+                case 0:
+                case 1:
+                    strengthBar.classList.add('strength-weak');
+                    feedback = 'Weak password';
+                    break;
+                case 2:
+                case 3:
+                    strengthBar.classList.add('strength-medium');
+                    feedback = 'Medium strength';
+                    break;
+                case 4:
+                    strengthBar.classList.add('strength-good');
+                    feedback = 'Good password';
+                    break;
+                case 5:
+                    strengthBar.classList.add('strength-strong');
+                    feedback = 'Strong password';
+                    break;
+            }
+            
+            strengthText.textContent = feedback;
+        }
+
+        // Password match checker
+        function checkPasswordMatch() {
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const indicator = document.getElementById('passwordMatchIndicator');
+            
+            if (confirmPassword.length > 0) {
+                indicator.classList.remove('hidden');
+                if (password === confirmPassword) {
+                    indicator.textContent = '✅';
+                    indicator.className = 'absolute right-3 top-3 text-xl text-green-500';
+                } else {
+                    indicator.textContent = '❌';
+                    indicator.className = 'absolute right-3 top-3 text-xl text-red-500';
+                }
+            } else {
+                indicator.classList.add('hidden');
+            }
+        }
+
+        // Show forgot password form
+        function showForgotPassword() {
+            const signinForm = document.getElementById('signinForm');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+            
+            signinForm.classList.remove('form-visible');
+            signinForm.classList.add('form-hidden');
+            forgotPasswordForm.classList.remove('form-hidden');
+            forgotPasswordForm.classList.add('form-visible');
+        }
+
+        // Show sign in form
+        function showSignIn() {
+            const signinForm = document.getElementById('signinForm');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+            
+            forgotPasswordForm.classList.remove('form-visible');
+            forgotPasswordForm.classList.add('form-hidden');
+            signinForm.classList.remove('form-hidden');
+            signinForm.classList.add('form-visible');
+        }
+
+        // Demo account filler
+        function fillDemoAccount(email, password) {
+            document.getElementById('signinEmail').value = email;
+            document.getElementById('signinPassword').value = password;
+        }
+
+        // Form handlers
+        function handleSignIn(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const email = formData.get('email');
+            
+            showSuccessModal(
+                'Welcome Back! 🎉',
+                `Successfully signed in as ${email}. Redirecting to your dashboard...`
+            );
+            
+            // Simulate redirect after 2 seconds
+            setTimeout(() => {
+                closeSuccessModal();
+                alert('Redirecting to dashboard...');
+            }, 2000);
+        }
+
+        function handleSignUp(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const firstName = formData.get('firstName');
+            const email = formData.get('email');
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirmPassword');
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            showSuccessModal(
+                'Account Created! 🎉',
+                `Welcome to LearnHub, ${firstName}! Your account has been created successfully. Please check your email at ${email} to verify your account.`
+            );
+        }
+
+        function handleForgotPassword(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const email = formData.get('email');
+            
+            showSuccessModal(
+                'Reset Link Sent! 📧',
+                `We've sent a password reset link to ${email}. Please check your email and follow the instructions to reset your password.`
+            );
+        }
+
+        // Social login
+        function socialLogin(provider) {
+            showSuccessModal(
+                `${provider.charAt(0).toUpperCase() + provider.slice(1)} Login`,
+                `Redirecting to ${provider} for authentication...`
+            );
+            
+            setTimeout(() => {
+                closeSuccessModal();
+                alert(`${provider} authentication would be handled here.`);
+            }, 1500);
+        }
+
+        // Success modal
+        function showSuccessModal(title, message) {
+            document.getElementById('successTitle').textContent = title;
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        // Close modal on outside click
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSuccessModal();
+            }
+        });
+
+        // Initialize form animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add floating label behavior
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.querySelector('label').classList.add('active');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (this.value === '') {
+                        this.parentElement.querySelector('label').classList.remove('active');
+                    }
+                });
+                
+                // Check if input has value on load
+                if (input.value !== '') {
+                    input.parentElement.querySelector('label').classList.add('active');
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c24d6c97424ea3',t:'MTc1NDY5MDU5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

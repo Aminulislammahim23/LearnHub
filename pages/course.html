@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - LearnHub Online Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .filter-active { background-color: #4f46e5; color: white; }
+        .course-grid { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-indigo-600">📚 LearnHub</h1>
+                    </div>
+                    <div class="hidden md:block ml-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-700 px-3 py-2 rounded-md text-sm font-medium transition-colors border-b-2 border-indigo-600">Courses</a>
+                            <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">My Learning</a>
+                            <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Instructors</a>
+                            <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search courses..." class="bg-gray-100 rounded-full px-4 py-2 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64">
+                        <div class="absolute left-3 top-2.5 text-gray-400">🔍</div>
+                    </div>
+                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-white py-12 border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Explore Our Courses</h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Discover thousands of courses from expert instructors across various categories</p>
+                <div class="mt-6 text-sm text-gray-500">
+                    <span id="courseCount">0</span> courses available
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters and Sort -->
+    <section class="bg-white py-6 border-b sticky top-16 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn filter-active px-4 py-2 rounded-full text-sm font-medium transition-colors" data-category="all">
+                        All Categories
+                    </button>
+                    <button class="filter-btn bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-category="technology">
+                        💻 Technology
+                    </button>
+                    <button class="filter-btn bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-category="design">
+                        🎨 Design
+                    </button>
+                    <button class="filter-btn bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-category="business">
+                        📊 Business
+                    </button>
+                    <button class="filter-btn bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-category="marketing">
+                        📱 Marketing
+                    </button>
+                    <button class="filter-btn bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-category="photography">
+                        📸 Photography
+                    </button>
+                </div>
+
+                <!-- Sort and View Options -->
+                <div class="flex items-center gap-4">
+                    <select id="sortSelect" class="bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="popular">Most Popular</option>
+                        <option value="newest">Newest First</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                    <div class="flex border rounded-lg overflow-hidden">
+                        <button id="gridView" class="px-3 py-2 bg-indigo-600 text-white text-sm">⊞</button>
+                        <button id="listView" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-sm">☰</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Grid -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="coursesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 course-grid">
+                <!-- Courses will be populated by JavaScript -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="loadMoreBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                    Load More Courses
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Modal -->
+    <div id="courseModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="modalTitle" class="text-2xl font-bold text-gray-900"></h2>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                </div>
+                <div id="modalContent">
+                    <!-- Modal content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">📚 LearnHub</h3>
+                    <p class="text-gray-400">Empowering learners worldwide with quality education and expert instruction.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Browse Courses</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Become Instructor</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mobile App</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📘</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">🐦</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📷</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">💼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 LearnHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Extended course data
+        const allCourses = [
+            {
+                id: 1,
+                title: "Complete Web Development Bootcamp",
+                instructor: "Sarah Johnson",
+                rating: 4.8,
+                students: 12543,
+                price: 89.99,
+                originalPrice: 129.99,
+                image: "💻",
+                level: "Beginner",
+                duration: "42 hours",
+                category: "technology",
+                description: "Learn HTML, CSS, JavaScript, React, Node.js and more in this comprehensive bootcamp.",
+                lessons: 156,
+                language: "English",
+                lastUpdated: "2024-01-15"
+            },
+            {
+                id: 2,
+                title: "UI/UX Design Masterclass",
+                instructor: "Mike Chen",
+                rating: 4.9,
+                students: 8921,
+                price: 79.99,
+                originalPrice: 99.99,
+                image: "🎨",
+                level: "Intermediate",
+                duration: "28 hours",
+                category: "design",
+                description: "Master the principles of user interface and user experience design with hands-on projects.",
+                lessons: 89,
+                language: "English",
+                lastUpdated: "2024-01-10"
+            },
+            {
+                id: 3,
+                title: "Data Science with Python",
+                instructor: "Dr. Emily Rodriguez",
+                rating: 4.7,
+                students: 15632,
+                price: 99.99,
+                originalPrice: 149.99,
+                image: "📊",
+                level: "Advanced",
+                duration: "56 hours",
+                category: "technology",
+                description: "Comprehensive data science course covering pandas, numpy, matplotlib, and machine learning.",
+                lessons: 203,
+                language: "English",
+                lastUpdated: "2024-01-20"
+            },
+            {
+                id: 4,
+                title: "Digital Marketing Strategy",
+                instructor: "Alex Thompson",
+                rating: 4.6,
+                students: 9876,
+                price: 69.99,
+                originalPrice: 89.99,
+                image: "📱",
+                level: "Beginner",
+                duration: "24 hours",
+                category: "marketing",
+                description: "Learn modern digital marketing strategies including SEO, social media, and content marketing.",
+                lessons: 78,
+                language: "English",
+                lastUpdated: "2024-01-05"
+            },
+            {
+                id: 5,
+                title: "Machine Learning Fundamentals",
+                instructor: "Prof. David Kim",
+                rating: 4.8,
+                students: 7543,
+                price: 119.99,
+                originalPrice: 159.99,
+                image: "🤖",
+                level: "Intermediate",
+                duration: "48 hours",
+                category: "technology",
+                description: "Introduction to machine learning algorithms, neural networks, and AI applications.",
+                lessons: 134,
+                language: "English",
+                lastUpdated: "2024-01-18"
+            },
+            {
+                id: 6,
+                title: "Photography Essentials",
+                instructor: "Lisa Wang",
+                rating: 4.9,
+                students: 5432,
+                price: 59.99,
+                originalPrice: 79.99,
+                image: "📸",
+                level: "Beginner",
+                duration: "18 hours",
+                category: "photography",
+                description: "Master the fundamentals of photography including composition, lighting, and editing.",
+                lessons: 67,
+                language: "English",
+                lastUpdated: "2024-01-12"
+            },
+            {
+                id: 7,
+                title: "Business Analytics",
+                instructor: "Robert Chen",
+                rating: 4.5,
+                students: 6789,
+                price: 89.99,
+                originalPrice: 119.99,
+                image: "📈",
+                level: "Intermediate",
+                duration: "32 hours",
+                category: "business",
+                description: "Learn to analyze business data and make data-driven decisions using Excel and SQL.",
+                lessons: 95,
+                language: "English",
+                lastUpdated: "2024-01-08"
+            },
+            {
+                id: 8,
+                title: "Graphic Design Fundamentals",
+                instructor: "Maria Garcia",
+                rating: 4.7,
+                students: 4321,
+                price: 74.99,
+                originalPrice: 94.99,
+                image: "🎨",
+                level: "Beginner",
+                duration: "26 hours",
+                category: "design",
+                description: "Learn the principles of graphic design using Adobe Creative Suite and design theory.",
+                lessons: 82,
+                language: "English",
+                lastUpdated: "2024-01-14"
+            },
+            {
+                id: 9,
+                title: "Social Media Marketing",
+                instructor: "Jennifer Lee",
+                rating: 4.6,
+                students: 8765,
+                price: 64.99,
+                originalPrice: 84.99,
+                image: "📱",
+                level: "Beginner",
+                duration: "20 hours",
+                category: "marketing",
+                description: "Master social media marketing across all major platforms with proven strategies.",
+                lessons: 65,
+                language: "English",
+                lastUpdated: "2024-01-06"
+            },
+            {
+                id: 10,
+                title: "Mobile App Development",
+                instructor: "Kevin Park",
+                rating: 4.8,
+                students: 9876,
+                price: 109.99,
+                originalPrice: 139.99,
+                image: "📱",
+                level: "Intermediate",
+                duration: "45 hours",
+                category: "technology",
+                description: "Build iOS and Android apps using React Native and Flutter frameworks.",
+                lessons: 128,
+                language: "English",
+                lastUpdated: "2024-01-16"
+            },
+            {
+                id: 11,
+                title: "Portrait Photography",
+                instructor: "Amanda Smith",
+                rating: 4.9,
+                students: 3456,
+                price: 69.99,
+                originalPrice: 89.99,
+                image: "📸",
+                level: "Intermediate",
+                duration: "22 hours",
+                category: "photography",
+                description: "Advanced portrait photography techniques including studio lighting and posing.",
+                lessons: 73,
+                language: "English",
+                lastUpdated: "2024-01-11"
+            },
+            {
+                id: 12,
+                title: "Project Management",
+                instructor: "Thomas Wilson",
+                rating: 4.5,
+                students: 7890,
+                price: 79.99,
+                originalPrice: 99.99,
+                image: "📊",
+                level: "Intermediate",
+                duration: "30 hours",
+                category: "business",
+                description: "Learn project management methodologies including Agile, Scrum, and traditional approaches.",
+                lessons: 87,
+                language: "English",
+                lastUpdated: "2024-01-09"
+            }
+        ];
+
+        let filteredCourses = [...allCourses];
+        let currentCategory = 'all';
+        let currentSort = 'popular';
+        let displayedCourses = 8;
+        let isGridView = true;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCourses();
+            setupEventListeners();
+            updateCourseCount();
+        });
+
+        function setupEventListeners() {
+            // Category filters
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active filter
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('filter-active');
+                        b.classList.add('bg-gray-100', 'hover:bg-gray-200');
+                    });
+                    this.classList.add('filter-active');
+                    this.classList.remove('bg-gray-100', 'hover:bg-gray-200');
+
+                    currentCategory = this.dataset.category;
+                    filterCourses();
+                });
+            });
+
+            // Sort dropdown
+            document.getElementById('sortSelect').addEventListener('change', function() {
+                currentSort = this.value;
+                sortCourses();
+            });
+
+            // View toggle
+            document.getElementById('gridView').addEventListener('click', function() {
+                isGridView = true;
+                this.classList.add('bg-indigo-600', 'text-white');
+                this.classList.remove('bg-gray-100');
+                document.getElementById('listView').classList.remove('bg-indigo-600', 'text-white');
+                document.getElementById('listView').classList.add('bg-gray-100');
+                renderCourses();
+            });
+
+            document.getElementById('listView').addEventListener('click', function() {
+                isGridView = false;
+                this.classList.add('bg-indigo-600', 'text-white');
+                this.classList.remove('bg-gray-100');
+                document.getElementById('gridView').classList.remove('bg-indigo-600', 'text-white');
+                document.getElementById('gridView').classList.add('bg-gray-100');
+                renderCourses();
+            });
+
+            // Search
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                filteredCourses = allCourses.filter(course => 
+                    course.title.toLowerCase().includes(searchTerm) ||
+                    course.instructor.toLowerCase().includes(searchTerm) ||
+                    course.description.toLowerCase().includes(searchTerm)
+                );
+                if (currentCategory !== 'all') {
+                    filteredCourses = filteredCourses.filter(course => course.category === currentCategory);
+                }
+                sortCourses();
+                displayedCourses = 8;
+                renderCourses();
+                updateCourseCount();
+            });
+
+            // Load more
+            document.getElementById('loadMoreBtn').addEventListener('click', function() {
+                displayedCourses += 8;
+                renderCourses();
+            });
+
+            // Modal
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('courseModal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
+
+        function filterCourses() {
+            if (currentCategory === 'all') {
+                filteredCourses = [...allCourses];
+            } else {
+                filteredCourses = allCourses.filter(course => course.category === currentCategory);
+            }
+            
+            // Apply search filter if search is active
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filteredCourses = filteredCourses.filter(course => 
+                    course.title.toLowerCase().includes(searchTerm) ||
+                    course.instructor.toLowerCase().includes(searchTerm) ||
+                    course.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            sortCourses();
+            displayedCourses = 8;
+            renderCourses();
+            updateCourseCount();
+        }
+
+        function sortCourses() {
+            switch(currentSort) {
+                case 'popular':
+                    filteredCourses.sort((a, b) => b.students - a.students);
+                    break;
+                case 'newest':
+                    filteredCourses.sort((a, b) => new Date(b.lastUpdated) - new Date(a.lastUpdated));
+                    break;
+                case 'rating':
+                    filteredCourses.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'price-low':
+                    filteredCourses.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredCourses.sort((a, b) => b.price - a.price);
+                    break;
+            }
+            renderCourses();
+        }
+
+        function renderCourses() {
+            const container = document.getElementById('coursesContainer');
+            const coursesToShow = filteredCourses.slice(0, displayedCourses);
+            
+            if (isGridView) {
+                container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 course-grid';
+                container.innerHTML = coursesToShow.map(course => `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover cursor-pointer" onclick="openCourseModal(${course.id})">
+                        <div class="p-6">
+                            <div class="text-4xl mb-4 text-center">${course.image}</div>
+                            <h3 class="font-semibold text-lg mb-2 line-clamp-2">${course.title}</h3>
+                            <p class="text-gray-600 text-sm mb-3">by ${course.instructor}</p>
+                            <div class="flex items-center mb-3">
+                                <span class="text-yellow-500">⭐</span>
+                                <span class="text-sm font-medium ml-1">${course.rating}</span>
+                                <span class="text-gray-500 text-sm ml-2">(${course.students.toLocaleString()})</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${course.level}</span>
+                                <span class="text-gray-500 text-sm">${course.duration}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="text-xl font-bold text-indigo-600">$${course.price}</span>
+                                    ${course.originalPrice > course.price ? `<span class="text-sm text-gray-500 line-through ml-2">$${course.originalPrice}</span>` : ''}
+                                </div>
+                                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" onclick="event.stopPropagation(); enrollCourse(${course.id})">
+                                    Enroll
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.className = 'space-y-4 course-grid';
+                container.innerHTML = coursesToShow.map(course => `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover cursor-pointer flex" onclick="openCourseModal(${course.id})">
+                        <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center bg-gray-50">
+                            <div class="text-4xl">${course.image}</div>
+                        </div>
+                        <div class="flex-1 p-6">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-xl mb-2">${course.title}</h3>
+                                    <p class="text-gray-600 mb-2">by ${course.instructor}</p>
+                                    <p class="text-gray-700 text-sm mb-3 line-clamp-2">${course.description}</p>
+                                    <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                        <span class="flex items-center">
+                                            <span class="text-yellow-500 mr-1">⭐</span>
+                                            ${course.rating} (${course.students.toLocaleString()})
+                                        </span>
+                                        <span>${course.duration}</span>
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">${course.level}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right ml-6">
+                                    <div class="mb-3">
+                                        <span class="text-2xl font-bold text-indigo-600">$${course.price}</span>
+                                        ${course.originalPrice > course.price ? `<div class="text-sm text-gray-500 line-through">$${course.originalPrice}</div>` : ''}
+                                    </div>
+                                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors" onclick="event.stopPropagation(); enrollCourse(${course.id})">
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Update load more button
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (displayedCourses >= filteredCourses.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-block';
+            }
+        }
+
+        function updateCourseCount() {
+            document.getElementById('courseCount').textContent = filteredCourses.length;
+        }
+
+        function openCourseModal(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            document.getElementById('modalTitle').textContent = course.title;
+            document.getElementById('modalContent').innerHTML = `
+                <div class="space-y-6">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">${course.image}</div>
+                        <div class="flex items-center justify-center space-x-4 text-sm text-gray-600">
+                            <span class="flex items-center">
+                                <span class="text-yellow-500 mr-1">⭐</span>
+                                ${course.rating} (${course.students.toLocaleString()} students)
+                            </span>
+                            <span>${course.duration}</span>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">${course.level}</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-2">About this course</h3>
+                        <p class="text-gray-700">${course.description}</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-medium text-gray-900">Instructor</h4>
+                            <p class="text-gray-600">${course.instructor}</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">Lessons</h4>
+                            <p class="text-gray-600">${course.lessons} lessons</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">Language</h4>
+                            <p class="text-gray-600">${course.language}</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">Last Updated</h4>
+                            <p class="text-gray-600">${new Date(course.lastUpdated).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t pt-6">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-3xl font-bold text-indigo-600">$${course.price}</span>
+                                ${course.originalPrice > course.price ? `<span class="text-lg text-gray-500 line-through ml-3">$${course.originalPrice}</span>` : ''}
+                            </div>
+                            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors" onclick="enrollCourse(${course.id})">
+                                Enroll Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('courseModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').classList.add('hidden');
+        }
+
+        function enrollCourse(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            alert(`Successfully enrolled in "${course.title}"! 🎉\n\nYou can now access the course materials in your dashboard.`);
+            closeModal();
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c23eb372054e9d',t:'MTc1NDY4OTk5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
